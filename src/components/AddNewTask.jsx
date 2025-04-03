@@ -5,6 +5,13 @@ import { PlusSquare, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { createTaskAction } from "@/action/taskAction";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
 
 export default function AddNewTask({ workspace }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,12 +20,15 @@ export default function AddNewTask({ workspace }) {
     taskDetails: "",
     tag: "",
     endDate: "",
-    // workspaceId not needed in body, it’s in URL
   });
   const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
+  };
+
+  const handleTagChange = (value) => {
+    setTask({ ...task, tag: value });
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +43,7 @@ export default function AddNewTask({ workspace }) {
     const taskPayload = {
       taskTitle: task.taskTitle,
       taskDetails: task.taskDetails,
-      tag: task.tag || "DESIGN", // Default to DESIGN if empty, adjust as needed
+      tag: task.tag || "DESIGN", // Default to DESIGN if empty
       endDate: isoEndDate,
     };
 
@@ -51,6 +61,18 @@ export default function AddNewTask({ workspace }) {
       console.error("Error:", err);
     }
   };
+
+  const allowedTags = [
+    "DESIGN",
+    "HOMEWORK",
+    "ASSIGNMENT",
+    "DEPLOYMENT",
+    "GIT",
+    "DATABASE",
+    "MINI_PROJECT",
+    "DOCUMENTATION",
+    "FEATURE",
+  ];
 
   return (
     <>
@@ -87,13 +109,18 @@ export default function AddNewTask({ workspace }) {
                 value={task.taskTitle}
                 onChange={handleInputChange}
               />
-              <Input
-                type={"text"}
+              <select
                 name="tag"
-                placeholder="Please type your task tag"
                 value={task.tag}
-                onChange={handleInputChange}
-              />
+                className="w-full border rounded py-1.5"
+                onValueChange={handleTagChange} // Use onValueChange for Radix Select
+              >
+                {allowedTags.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
 
               <Input
                 type="date"

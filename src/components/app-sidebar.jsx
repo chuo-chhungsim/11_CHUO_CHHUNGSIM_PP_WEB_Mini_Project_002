@@ -24,6 +24,7 @@ import {
 import { DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
 import ModalAddWorkspace from "./modalAddWorkspace";
 import ModalUpdateWorkspace from "./modalUpdateWorkspace";
+import LogoutComponent from "./LogOutComponent";
 export async function AppSidebar() {
   const getColor = colorList;
   const workspace = await getAllWorkspaces();
@@ -136,12 +137,7 @@ export async function AppSidebar() {
       <SidebarFooter className={"bg-white"}>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className={"py-2 text-lg"}>
-              <a href="#" className="text-lg text-black">
-                <LogOut />
-                <span>Logout</span>
-              </a>
-            </SidebarMenuButton>
+            <LogoutComponent />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

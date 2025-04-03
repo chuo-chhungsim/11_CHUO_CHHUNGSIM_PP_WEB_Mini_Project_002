@@ -17,7 +17,7 @@ const page = async ({ params }) => {
   const { id } = await params;
   const task = await getTaskbyWorkspaceById(id);
   const workspace = await getWorkSpaceById(id);
-  console.log("task list", task);
+  // console.log("task list", task);
   // console.log("workspace", workspace);
 
   return (

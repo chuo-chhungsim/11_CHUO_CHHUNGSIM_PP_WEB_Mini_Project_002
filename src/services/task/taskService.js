@@ -14,11 +14,12 @@ export const getTaskbyWorkspaceById = async (workspaceId) => {
   return data.payload;
 };
 export const createTaskService = async (request) => {
+  console.log("workspace Id : ", request.workspaceId);
   const headers = await headerToken();
   console.log("Headers:", headers);
   console.log("Request:", request);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/workspace/${request.workspaceId}`,
+    `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/workspace/${request.workspaceId}`,
     {
       method: "POST",
       headers,
@@ -39,5 +40,29 @@ export const createTaskService = async (request) => {
 
   const data = await response.json();
   console.log("Response Data:", data);
+  return data.payload;
+};
+
+export const updateTask = async (taskId, workspaceId, taskData) => {
+  const headers = await headerToken();
+  const url = `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/${taskId}/workspace/${workspaceId}`;
+  console.log("Update URL:", url);
+  console.log("Update Headers:", headers);
+  console.log("Update Body:", taskData);
+
+  const response = await fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(taskData),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.log("Error Response:", response.status, errorText);
+    throw new Error(`API error: ${response.status} - ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  console.log("Update Response Data:", data);
   return data.payload;
 };

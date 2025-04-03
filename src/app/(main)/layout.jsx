@@ -3,7 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 
 export default function Layout({ children }) {
   return (
-    <SidebarProvider className={"font-sans no-scrollbar"}>
+    <SidebarProvider className={"font-sans"}>
       <AppSidebar />
       <main className="w-full">
         {/* <SidebarTrigger /> */}
