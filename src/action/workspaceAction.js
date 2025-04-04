@@ -12,9 +12,9 @@ export const createWorkspaceAction = async (request) => {
   return workspace;
 };
 export const updateWorkspaceAction = async (workspace, request) => {
-  console.log("rfdafjsfljsa : ", request);
+  // console.log("rfdafjsfljsa : ", request);
   const { workspaceId } = workspace;
-  console.log("id : ", workspaceId);
+  // console.log("id : ", workspaceId);
 
   const response = await updateWorkSpace(workspaceId, request);
   // console.log("workspace updated:" + workspace);

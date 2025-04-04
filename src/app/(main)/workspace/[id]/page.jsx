@@ -71,6 +71,8 @@ const page = async ({ params }) => {
               .map((item) => (
                 <CardComponent
                   key={item.taskId}
+                  workspaceId={workspace.workspaceId}
+                  taskId={item.taskId}
                   taskTitle={item.taskTitle}
                   taskDetails={item.taskDetails}
                   tag={item.tag}
@@ -87,6 +89,8 @@ const page = async ({ params }) => {
               .map((item) => (
                 <CardComponent
                   key={item.taskId}
+                  workspaceId={workspace.workspaceId}
+                  taskId={item.taskId}
                   taskTitle={item.taskTitle}
                   taskDetails={item.taskDetails}
                   tag={item.tag}

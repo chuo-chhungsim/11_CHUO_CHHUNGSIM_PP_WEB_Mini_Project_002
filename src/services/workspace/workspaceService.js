@@ -79,8 +79,8 @@ export const updateFavoriteWorkspaceStatus = async (
   isFavorite
 ) => {
   const headers = await headerToken();
-  console.log("isFavorite:", isFavorite);
-  console.log("header:", headers);
+  // console.log("isFavorite:", isFavorite);
+  // console.log("header:", headers);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/workspace/${workspaceId}/favorite?favorite=${isFavorite}`,
     {
@@ -88,7 +88,7 @@ export const updateFavoriteWorkspaceStatus = async (
       headers,
     }
   );
-  console.log("Base URL:", process.env.NEXT_PUBLIC_AUTH_BASE_URL);
+  // console.log("Base URL:", process.env.NEXT_PUBLIC_AUTH_BASE_URL);
 
   if (!response.ok) {
     throw new Error(`API error: ${response.status} - ${response.statusText}`);

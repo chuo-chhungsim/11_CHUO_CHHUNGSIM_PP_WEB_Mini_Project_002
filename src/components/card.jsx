@@ -11,24 +11,22 @@ import {
 } from "./ui/select";
 import UpdateTask from "./UpdateTask";
 import DeleteTask from "./DeleteTask";
+import { updateTaskStatusAction } from "@/action/taskAction";
+
 export default function CardComponent({
-  taskId, // Added taskId
-  workspaceId, // Added workspaceId
+  taskId,
+  workspaceId,
   taskTitle,
   taskDetails,
   tag,
   status,
   endDate,
 }) {
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false); // Control modal visibility
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const [error, setError] = useState(null);
 
-  const handleDelete = () => {
-    console.log(`Delete task: ${taskTitle}`);
-    // Add delete logic here later
-  };
-
-  // Construct task object to pass to UpdateTask
   const task = {
     taskId,
     workspaceId,
@@ -36,6 +34,30 @@ export default function CardComponent({
     taskDetails,
     tag,
     endDate,
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    console.log(
+      "Attempting to change status from",
+      currentStatus,
+      "to",
+      newStatus
+    );
+    try {
+      const updateTaskStatus = await updateTaskStatusAction({
+        taskId,
+        workspaceId,
+        status: newStatus,
+      });
+      console.log("Status changed successfully:", updateTaskStatus);
+      setCurrentStatus(newStatus);
+      setError(null);
+    } catch (error) {
+      console.error("Error updating task status:", error.message);
+      setError(
+        `Failed to update status from ${currentStatus} to ${newStatus}: ${error.message}`
+      );
+    }
   };
 
   return (
@@ -69,9 +91,9 @@ export default function CardComponent({
             </p>
             <div
               className={`rounded-full w-8 h-8 ${
-                status === "IN_PROGRESS"
+                currentStatus === "IN_PROGRESS"
                   ? "bg-blue-500"
-                  : status === "NOT_STARTED"
+                  : currentStatus === "NOT_STARTED"
                   ? "bg-red-700"
                   : "bg-green-700"
               }`}
@@ -80,17 +102,17 @@ export default function CardComponent({
         </div>
 
         <div className="flex justify-between items-center border-t border-t-gray-300 p-5">
-          <Select value={status}>
+          <Select value={currentStatus} onValueChange={handleStatusChange}>
             <SelectTrigger
               className={`w-36 rounded-2xl ${
-                status === "NOT_STARTED"
+                currentStatus === "NOT_STARTED"
                   ? "border-red-700 text-red-700"
-                  : status === "IN_PROGRESS"
+                  : currentStatus === "IN_PROGRESS"
                   ? "border-blue-500 text-blue-500"
                   : "border-green-700 text-green-700"
               }`}
             >
-              <SelectValue placeholder={status} />
+              <SelectValue placeholder={currentStatus} />
             </SelectTrigger>
             <SelectContent className="bg-white border-none">
               <SelectItem value="NOT_STARTED">NOT_STARTED</SelectItem>
@@ -103,6 +125,7 @@ export default function CardComponent({
             <Clock size={22} /> {new Date(endDate).toDateString()}
           </p>
         </div>
+        {error && <p className="text-red-500 p-5">{error}</p>}
       </motion.div>
     </>
   );

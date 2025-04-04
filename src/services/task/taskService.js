@@ -86,3 +86,22 @@ export const deleteTaskService = async (taskId, workspaceId) => {
   console.log("Delete successful");
   return true;
 };
+
+export const updateTaskStatusService = async (taskId, workspaceId, status) => {
+  const headers = await headerToken();
+  console.log("Update Headers:", headers);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/${taskId}/workspace/${workspaceId}/status?status=${status}`,
+    {
+      method: "PATCH",
+      headers,
+    }
+  );
+  if (!response.ok) {
+    console.log("Error Response:", response.status, response.statusText);
+    throw new Error(`API error: ${response.status} - ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.payload;
+};

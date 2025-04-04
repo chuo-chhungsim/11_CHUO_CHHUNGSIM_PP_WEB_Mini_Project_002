@@ -9,7 +9,7 @@ export default function StarComponent({ workspaceId, isFavorite }) {
     "isFavorite:",
     isFavorite
   );
-  console.log("Base URL:", process.env.NEXT_PUBLIC_AUTH_BASE_URL);
+  // console.log("Base URL:", process.env.NEXT_PUBLIC_AUTH_BASE_URL);
   const handleClick = async (id) => {
     const newFavoriteStatus = !isFavorite;
     await updateWorkspaceFavoriteAction(id, newFavoriteStatus);
