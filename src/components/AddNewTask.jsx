@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@radix-ui/react-select";
+} from "./ui/select";
 
 export default function AddNewTask({ workspace }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,18 +109,18 @@ export default function AddNewTask({ workspace }) {
                 value={task.taskTitle}
                 onChange={handleInputChange}
               />
-              <select
-                name="tag"
-                value={task.tag}
-                className="w-full border rounded py-1.5"
-                onValueChange={handleTagChange} // Use onValueChange for Radix Select
-              >
-                {allowedTags.map((tag) => (
-                  <option key={tag} value={tag}>
-                    {tag}
-                  </option>
-                ))}
-              </select>
+              <Select onValueChange={handleTagChange}>
+                <SelectTrigger className="w-full border rounded px-2 py-1">
+                  <SelectValue placeholder="Select a tag" />
+                </SelectTrigger>
+                <SelectContent className={"bg-white border-none"}>
+                  {allowedTags.map((tag) => (
+                    <SelectItem key={tag} value={tag}>
+                      {tag}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
               <Input
                 type="date"

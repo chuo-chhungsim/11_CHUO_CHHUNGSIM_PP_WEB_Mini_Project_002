@@ -8,7 +8,6 @@ import {
 import { getTaskbyWorkspaceById } from "@/services/task/taskService";
 import ProfileComponent from "./../../../../components/profileComponent";
 import { getWorkSpaceById } from "@/services/workspace/workspaceService";
-import { StarIcon } from "lucide-react";
 import CardComponent from "@/components/card";
 import StarComponent from "@/components/starComponent";
 import AddNewTask from "@/components/AddNewTask";
@@ -54,6 +53,8 @@ const page = async ({ params }) => {
               .map((item) => (
                 <CardComponent
                   key={item.taskId}
+                  workspaceId={workspace.workspaceId}
+                  taskId={item.taskId}
                   taskTitle={item.taskTitle}
                   taskDetails={item.taskDetails}
                   tag={item.tag}

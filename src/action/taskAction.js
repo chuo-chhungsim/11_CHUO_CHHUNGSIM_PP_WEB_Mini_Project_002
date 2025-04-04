@@ -1,5 +1,10 @@
 "use server";
-import { createTaskService } from "@/services/task/taskService";
+import UpdateTask from "@/components/UpdateTask";
+import {
+  createTaskService,
+  deleteTaskService,
+  updateTask,
+} from "@/services/task/taskService";
 import { revalidateTag } from "next/cache";
 
 export const createTaskAction = async (request) => {
@@ -8,8 +13,19 @@ export const createTaskAction = async (request) => {
   return createTask;
 };
 export const updateTaskAction = async (taskData) => {
-  const { taskId, workspaceId, ...rest } = taskData;
-  const updatedTask = await updateTask(taskId, workspaceId, rest);
-  revalidateTag("workspace"); // Refresh workspace data
+  console.log("taskdata", taskData);
+  // const { ...rest } = taskData;
+  const updatedTask = await updateTask(
+    taskData.taskId,
+    taskData.workspaceId,
+    taskData
+  );
+  revalidateTag("workspace");
   return updatedTask;
+};
+export const deleteTaskAction = async ({ taskId, workspaceId }) => {
+  console.log("taskId", taskId + "workspaceId", workspaceId);
+  await deleteTaskService(taskId, workspaceId);
+  revalidateTag("workspace");
+  return { success: true };
 };

@@ -13,6 +13,7 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { getAllWorkspaces } from "@/services/workspace/workspaceService";
 import Logo from "./logo";
@@ -34,7 +35,7 @@ export async function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent className={"bg-white"}>
-        <SidebarHeader className={"text-center"}>
+        <SidebarHeader className={"text-center relative"}>
           <Logo />
         </SidebarHeader>
         <SidebarGroup>

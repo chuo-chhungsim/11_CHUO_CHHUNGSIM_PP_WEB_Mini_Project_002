@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { KeyRound, Mail, UserRound } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { signUpService } from "@/services/auth/signUpService";
 import { useRouter } from "next/navigation";
 import { signUpAction } from "@/action/signUpAction";
 

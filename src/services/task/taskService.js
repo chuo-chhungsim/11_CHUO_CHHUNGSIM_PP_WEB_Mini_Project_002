@@ -45,16 +45,17 @@ export const createTaskService = async (request) => {
 
 export const updateTask = async (taskId, workspaceId, taskData) => {
   const headers = await headerToken();
-  const url = `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/${taskId}/workspace/${workspaceId}`;
-  console.log("Update URL:", url);
   console.log("Update Headers:", headers);
   console.log("Update Body:", taskData);
 
-  const response = await fetch(url, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(taskData),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/${taskId}/workspace/${workspaceId}`,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(taskData),
+    }
+  );
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -65,4 +66,23 @@ export const updateTask = async (taskId, workspaceId, taskData) => {
   const data = await response.json();
   console.log("Update Response Data:", data);
   return data.payload;
+};
+
+export const deleteTaskService = async (taskId, workspaceId) => {
+  console.log("taskId:", taskId);
+  console.log("workspaceId:", workspaceId);
+  const headers = await headerToken();
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_BASE_URL}/task/${taskId}/workspace/${workspaceId}`,
+    {
+      method: "DELETE",
+      headers,
+    }
+  );
+  if (!response.ok) {
+    console.log("Error Response:", response.status, response.statusText);
+    throw new Error(`API error: ${response.status} - ${response.statusText}`);
+  }
+  console.log("Delete successful");
+  return true;
 };
